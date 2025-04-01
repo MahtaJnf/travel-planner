@@ -10,7 +10,6 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import Image from 'next/image';
 import ImageCart from '../components/imageCart';
 import SearchBar from '../components/searchBar';
 import { useState } from 'react';
@@ -18,29 +17,27 @@ import { Stack } from '@mui/system';
 
 export default function HomePage() {
   const [city, setCity] = useState('');
-  const [weather, setWeather] = useState<any>(null);
+  const [weatherInfo, setWeatherInfo] = useState<any>(null);
   const [country, setCountry] = useState<any>(null);
   const [images, setImages] = useState<string[]>([]);
 
   const handleSearch = async (query: string) => {
     setCity(query);
-    // 1. TODO: Fetch weather
-    const weatherRes = await fetch(`/api/weather?city=${query}`);
-    const weatherData = await weatherRes.json();
-    setWeather(weatherData);
-    // 2.TODO:  Fetch country
-    const countryRes = await fetch(`/api/country?city=${query}`);
-    const countryData = await countryRes.json();
-    setCountry(countryData);
-    // 3.TODO:  Fetch images
-    const unsplashRes = await fetch(`/api/images?query=${query}`);
-    const unsplashData = await unsplashRes.json();
-    setImages(unsplashData?.urls || []);
+    try {
+      const weatherRes = await fetch(
+        `http://localhost:3333/api/v1/weather?city=${query}`
+      );
+      const weatherJson = await weatherRes.json();
+      setWeatherInfo(weatherJson.data);
+    } catch (error) {
+      console.error('Failed to fetch weather', error);
+      setWeatherInfo(null);
+    }
   };
 
   return (
     <>
-      <SearchBar />
+      <SearchBar onSearch={handleSearch} />
       <Container maxWidth="lg" sx={{ mt: 6 }}>
         <Grid container spacing={4}>
           {/* Weather Card */}
@@ -57,16 +54,16 @@ export default function HomePage() {
                     borderRadius: 3,
                   }}
                 >
-                  <Image src="/plane.png" alt="plane" width={80} height={80} />
+                  {/* <Image src="/plane.png" alt="plane" width={80} height={80} /> */}
                 </Box>
                 <Typography fontWeight="bold">
-                  Temperature: {weather?.temperature ?? '—'}
+                  Temperature: {weatherInfo?.main.temp ?? '—'}
                 </Typography>
                 <Typography fontWeight="bold">
-                  Humidity: {weather?.humidity ?? '—'}
+                  Humidity: {weatherInfo?.main.humidity ?? '—'}
                 </Typography>
                 <Typography fontWeight="bold">
-                  Chance of Rain: {weather?.rain ?? '—'}
+                  Feels Like: {weatherInfo?.main.feels_like ?? '—'}
                 </Typography>
               </CardContent>
             </Card>
@@ -93,13 +90,13 @@ export default function HomePage() {
                 >
                   <Stack flex={1}>
                     <Typography fontWeight="bold" sx={{ mb: 2 }}>
-                      City Name: {city || '—'}
+                      City Name: {weatherInfo?.name || '—'}
                     </Typography>
                     <Typography fontWeight="bold" sx={{ mb: 2 }}>
-                      Country: {country?.name || '—'}
+                      Country: {weatherInfo?.sys.country || '—'}
                     </Typography>
                     <Typography fontWeight="bold" sx={{ mb: 2 }}>
-                      Timezone: {country?.timezone || '—'}
+                      Timezone: {weatherInfo?.timezone || '—'}
                     </Typography>
                     <Typography fontWeight="bold" sx={{ mb: 2 }}>
                       Languages: {country?.languages?.join(', ') || '—'}
@@ -121,8 +118,8 @@ export default function HomePage() {
                     </Typography>
                     <Typography fontWeight="bold" sx={{ mb: 2 }}>
                       Lat / Lon:{' '}
-                      {country?.latlng
-                        ? `${country.latlng[0]}, ${country.latlng[1]}`
+                      {weatherInfo?.coord
+                        ? `${weatherInfo.coord.lat}, ${weatherInfo.coord.lon}`
                         : '—'}
                     </Typography>
                   </Stack>

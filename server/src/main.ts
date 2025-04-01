@@ -1,23 +1,16 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-import express from 'express';
-import * as path from 'path';
+// Load environment variables before accessing them
 import * as dotenv from 'dotenv';
+import * as path from 'path';
 
+// ✅ Load env variables
 dotenv.config({
   path: path.resolve(__dirname, '../../../.env'),
 });
 
-const app = express();
+// ✅ Import your Express app with routes
+import app from './app/app';
 
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
-
-app.get('/api', (req, res) => {
-  res.send({ message: 'WELCOME FROM SERVER!' });
-});
-
+// ✅ Start the server
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
