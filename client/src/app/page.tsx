@@ -14,26 +14,55 @@ import ImageCart from '../components/imageCart';
 import SearchBar from '../components/searchBar';
 import { useState } from 'react';
 import { Stack } from '@mui/system';
+import Image from 'next/image';
 
 export default function HomePage() {
   const [city, setCity] = useState('');
   const [weatherInfo, setWeatherInfo] = useState<any>(null);
   const [country, setCountry] = useState<any>(null);
+  // TODO: get the pictures for the slider
   const [images, setImages] = useState<string[]>([]);
+  const [introImage, setIntroImage] = useState<string | null>(null);
 
   const handleSearch = async (query: string) => {
     setCity(query);
     try {
+      // weather
       const weatherRes = await fetch(
         `http://localhost:3333/api/v1/weather?city=${query}`
       );
       const weatherJson = await weatherRes.json();
       setWeatherInfo(weatherJson.data);
+
+      // country
+      const countryRes = await fetch(
+        `http://localhost:3333/api/v1/country?code=${weatherJson.data.sys.country}`
+      );
+      const countryJson = await countryRes.json();
+      setCountry(countryJson.data[0]);
+
+      // image
+      const imageRes = await fetch(
+        `http://localhost:3333/api/v1/introImage?city=${query}`
+      );
+      const imageJson = await imageRes.json();
+      setIntroImage(imageJson.imageUrl);
     } catch (error) {
-      console.error('Failed to fetch weather', error);
+      console.error('Failed to fetch weather or country', error);
+      setWeatherInfo(null);
       setWeatherInfo(null);
     }
   };
+
+  const country_languages: string = country?.languages
+    ? Object.values(country.languages).join(', ')
+    : '—';
+
+  const country_currency: string = country?.currencies
+    ? Object.values(country.currencies)
+        .map((cur: any) => `${cur.name} (${cur.symbol})`)
+        .join(', ')
+    : '—';
 
   return (
     <>
@@ -54,7 +83,20 @@ export default function HomePage() {
                     borderRadius: 3,
                   }}
                 >
-                  {/* <Image src="/plane.png" alt="plane" width={80} height={80} /> */}
+                  {introImage ? (
+                    <img
+                      src={introImage}
+                      alt={`Photo of ${city}`}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '10px',
+                      }}
+                    />
+                  ) : (
+                    <Typography>Loading image...</Typography>
+                  )}
                 </Box>
                 <Typography fontWeight="bold">
                   Temperature: {weatherInfo?.main.temp ?? '—'}
@@ -68,7 +110,6 @@ export default function HomePage() {
               </CardContent>
             </Card>
           </Grid>
-
           {/* Country Info Card */}
           <Grid item xs={12} md={6}>
             <Card sx={{ borderRadius: 4, boxShadow: 3, height: '100%' }}>
@@ -99,7 +140,7 @@ export default function HomePage() {
                       Timezone: {weatherInfo?.timezone || '—'}
                     </Typography>
                     <Typography fontWeight="bold" sx={{ mb: 2 }}>
-                      Languages: {country?.languages?.join(', ') || '—'}
+                      Languages: {country_languages}
                     </Typography>
                   </Stack>
 
@@ -108,10 +149,7 @@ export default function HomePage() {
                       Capital: {country?.capital || '—'}
                     </Typography>
                     <Typography fontWeight="bold" sx={{ mb: 2 }}>
-                      Currency:{' '}
-                      {country?.currency
-                        ? `${country.currency.code} (${country.currency.name})`
-                        : '—'}
+                      Currency: {country_currency}
                     </Typography>
                     <Typography fontWeight="bold" sx={{ mb: 2 }}>
                       Region: {country?.region || '—'}

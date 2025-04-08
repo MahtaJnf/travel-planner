@@ -3,7 +3,8 @@ import cors from 'cors';
 
 const app = express();
 import weatherRouter from '../../routes/weatherRoutes';
-
+import countryRouter from '../../routes/countryRoutes';
+import imageRouter from '../../routes/imageRoutes';
 // Enable CORS (so your React frontend can talk to backend)
 app.use(
   cors({
@@ -22,5 +23,7 @@ app.get('/api', (_req, res) => {
 });
 
 app.use('/api/v1/weather', weatherRouter);
+app.use('/api/v1/country', countryRouter);
+app.use('/api/v1/introImage', imageRouter);
 
 export default app;
