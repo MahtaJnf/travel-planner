@@ -57,6 +57,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^6.4.8",
     "@mui/material": "^6.4.8",
+    "@mui/x-charts": "^7.28.0",
     "axios": "^1.8.4",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -68,6 +69,7 @@
     "react-leaflet": "^4.2.1",
     "react-router-dom": "6.29.0",
     "react-slick": "^0.30.3",
+    "recharts": "^2.15.2",
     "slick-carousel": "^1.8.1"
   }
 }

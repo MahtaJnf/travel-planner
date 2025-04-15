@@ -24,6 +24,6 @@ app.get('/api', (_req, res) => {
 
 app.use('/api/v1/weather', weatherRouter);
 app.use('/api/v1/country', countryRouter);
-app.use('/api/v1/introImage', imageRouter);
+app.use('/api/v1/', imageRouter);
 
 export default app;

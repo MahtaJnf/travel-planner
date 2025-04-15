@@ -28,7 +28,6 @@ export default function ImageCart({ cityName, images }: ImageCartProps) {
     return (
       <Box
         sx={{
-          mt: 6,
           py: 8,
           textAlign: 'center',
           borderRadius: 4,
@@ -45,11 +44,7 @@ export default function ImageCart({ cityName, images }: ImageCartProps) {
     );
   }
   return (
-    <Box sx={{ mt: 6 }}>
-      <Typography variant="h6" gutterBottom>
-        📸 Photos of {cityName}
-      </Typography>
-
+    <>
       <Box
         sx={{
           maxWidth: '100%',
@@ -78,6 +73,6 @@ export default function ImageCart({ cityName, images }: ImageCartProps) {
           ))}
         </Slider>
       </Box>
-    </Box>
+    </>
   );
 }
