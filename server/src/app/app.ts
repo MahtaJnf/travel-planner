@@ -5,23 +5,19 @@ const app = express();
 import weatherRouter from '../../routes/weatherRoutes';
 import countryRouter from '../../routes/countryRoutes';
 import imageRouter from '../../routes/imageRoutes';
-// Enable CORS (so your React frontend can talk to backend)
 app.use(
   cors({
-    origin: '*', // ✅ Allow all origins
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // ✅ Allow all common methods
-    allowedHeaders: ['*'], // ✅ Allow all headers
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['*'],
   })
 );
 
-// Optional JSON middleware (in case you use POST later)
 app.use(express.json());
 
-// Basic health check route
 app.get('/api', (_req, res) => {
-  res.json({ message: 'Server is up and running 🚀' });
+  res.json({ message: 'Server is up and running' });
 });
-
 app.use('/api/v1/weather', weatherRouter);
 app.use('/api/v1/country', countryRouter);
 app.use('/api/v1/', imageRouter);

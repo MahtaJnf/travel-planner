@@ -1,6 +1,4 @@
-// apps/client/src/app/home/page.tsx
 'use client';
-
 import {
   Box,
   Button,
@@ -15,91 +13,69 @@ import SearchBar from '../components/searchBar';
 import { useState } from 'react';
 import { Stack } from '@mui/system';
 import WeatherGraph from '../components/weatherGraph';
+import { useWeather } from '../hooks/useWeather';
+import { useCountry } from '../hooks/useCountry';
+import { useImages } from '../hooks/useImages';
+import { useFoodImages } from '../hooks/useFoodImages';
+import { useForecast } from '../hooks/useForecast';
+import { useMemo } from 'react';
+
+const getEmoji = (main: string) => {
+  switch (main.toLowerCase()) {
+    case 'clear':
+      return '☀️';
+    case 'clouds':
+      return '☁️';
+    case 'rain':
+      return '🌧️';
+    case 'snow':
+      return '❄️';
+    case 'thunderstorm':
+      return '⛈️';
+    case 'drizzle':
+      return '🌦️';
+    default:
+      return '🌈';
+  }
+};
+
+function formatUtcOffset(offsetInSeconds: number): string {
+  const hours = Math.floor(offsetInSeconds / 3600);
+  const minutes = Math.abs((offsetInSeconds % 3600) / 60);
+  const sign = hours >= 0 ? '+' : '-';
+  return `${sign}${String(Math.abs(hours)).padStart(2, '0')}:${String(
+    minutes
+  ).padStart(2, '0')}`;
+}
 
 export default function HomePage() {
   const [city, setCity] = useState('');
-  const [weatherInfo, setWeatherInfo] = useState<any>(null);
-  const [country, setCountry] = useState<any>(null);
-  const [images, setImages] = useState<string[]>([]);
-  const [foodImages, setFoodImages] = useState([]);
-  const [forecast, setForecast] = useState<any>([]);
 
-  function formatUtcOffset(offsetInSeconds: number): string {
-    const hours = Math.floor(offsetInSeconds / 3600);
-    const minutes = Math.abs((offsetInSeconds % 3600) / 60);
-    const sign = hours >= 0 ? '+' : '-';
-    return `${sign}${String(Math.abs(hours)).padStart(2, '0')}:${String(
-      minutes
-    ).padStart(2, '0')}`;
-  }
+  const { data: weatherRes } = useWeather(city);
+  const weatherInfo = weatherRes?.data || null;
 
-  const handleSearch = async (query: string) => {
+  const countryCode = weatherRes?.data?.sys?.country;
+  const { data: countryRes } = useCountry(countryCode);
+
+  const { data: imagesRes } = useImages(city);
+  const { data: foodRes } = useFoodImages(city);
+  const { data: forecastRes } = useForecast(city);
+
+  const country = countryRes || null;
+  const images = imagesRes?.images || [];
+  const foodImages = foodRes?.foodImages || [];
+  const forecast = useMemo(() => {
+    const daily =
+      forecastRes?.data?.list?.filter((_: any, i: any) => i % 8 === 0) || [];
+    return daily.map((entry: any) => ({
+      date: entry.dt_txt.split(' ')[0],
+      temp: entry.main.temp,
+      icon: getEmoji(entry.weather[0].main),
+    }));
+  }, [forecastRes]);
+
+  const handleSearch = (query: string) => {
     setCity(query);
-    try {
-      // weather
-      const weatherRes = await fetch(
-        `http://localhost:3333/api/v1/weather?city=${query}`
-      );
-      const weatherJson = await weatherRes.json();
-      setWeatherInfo(weatherJson.data);
-      // country
-      const countryRes = await fetch(
-        `http://localhost:3333/api/v1/country?code=${weatherJson.data.sys.country}`
-      );
-      const countryJson = await countryRes.json();
-      setCountry(countryJson.data[0]);
-      // images
-      const imagesRes = await fetch(
-        `http://localhost:3333/api/v1/images?city=${query}`
-      );
-      const imagesJson = await imagesRes.json();
-      setImages(imagesJson.images);
-      // Food images
-      const foodRes = await fetch(
-        `http://localhost:3333/api/v1/food?city=${query}`
-      );
-      const foodJson = await foodRes.json();
-      setFoodImages(foodJson.foodImages);
-      // weather forecast
-      // 5-day forecast
-      const forecastRes = await fetch(
-        `http://localhost:3333/api/v1/weather/forecast?city=${query}`
-      );
-      const forecastJson = await forecastRes.json();
-      const forecastList = forecastJson.data.list;
-      // Simplify to one forecast per day (every 8th item in 3-hour intervals)
-      const dailyForecast = forecastList.filter((_, i) => i % 8 === 0);
-      // Emoji based on weather main condition
-      const getEmoji = (main: string) => {
-        switch (main.toLowerCase()) {
-          case 'clear':
-            return '☀️';
-          case 'clouds':
-            return '☁️';
-          case 'rain':
-            return '🌧️';
-          case 'snow':
-            return '❄️';
-          case 'thunderstorm':
-            return '⛈️';
-          case 'drizzle':
-            return '🌦️';
-          default:
-            return '🌈';
-        }
-      };
-      // Format the data for the chart
-      const chartData = dailyForecast.map((entry: any) => ({
-        date: entry.dt_txt.split(' ')[0],
-        temp: entry.main.temp,
-        icon: getEmoji(entry.weather[0].main),
-      }));
-      setForecast(chartData);
-    } catch (error) {
-      console.error('Failed to fetch weather or country', error);
-      setWeatherInfo(null);
-      setWeatherInfo(null);
-    }
   };
 
   const country_languages: string = country?.languages
@@ -114,7 +90,7 @@ export default function HomePage() {
 
   const timezone =
     weatherInfo?.timezone !== undefined
-      ? `UTC${formatUtcOffset(weatherInfo.timezone)}`
+      ? `UTC${formatUtcOffset(weatherInfo?.timezone)}`
       : '—';
 
   return (
@@ -147,10 +123,11 @@ export default function HomePage() {
                 >
                   <Stack flex={1}>
                     <Typography fontWeight="bold" sx={{ mb: 2, mt: 2 }}>
-                      City Name: {weatherInfo?.name || '—'}
+                      City Name:
+                      {weatherInfo?.name || '—'}
                     </Typography>
                     <Typography fontWeight="bold" sx={{ mb: 2 }}>
-                      Country: {weatherInfo?.sys.country || '—'}
+                      Country: {weatherInfo?.sys?.country || '—'}
                     </Typography>
                     <Typography fontWeight="bold" sx={{ mb: 2 }}>
                       Timezone: {timezone}
@@ -159,7 +136,7 @@ export default function HomePage() {
                       Language: {country_languages}
                     </Typography>
                     <Typography fontWeight="bold" sx={{ mb: 1 }}>
-                      Temperature: {weatherInfo?.main.temp ?? '—'}
+                      Temperature: {weatherInfo?.main?.temp ?? '—'}
                     </Typography>
                   </Stack>
                   <Stack>
@@ -175,11 +152,11 @@ export default function HomePage() {
                     <Typography fontWeight="bold" sx={{ mb: 2 }}>
                       Lat / Lon:{' '}
                       {weatherInfo?.coord
-                        ? `${weatherInfo.coord.lat}, ${weatherInfo.coord.lon}`
+                        ? `${weatherInfo.coord?.lat}, ${weatherInfo.coord?.lon}`
                         : '—'}
                     </Typography>
                     <Typography fontWeight="bold" sx={{ mb: 1 }}>
-                      Humidity: {weatherInfo?.main.humidity ?? '—'}
+                      Humidity: {weatherInfo?.main?.humidity ?? '—'}
                     </Typography>
                   </Stack>
                 </Box>
