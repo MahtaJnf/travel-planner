@@ -16,7 +16,7 @@ import WeatherGraph from '../components/weatherGraph';
 import { useWeather } from '../hooks/useWeather';
 import { useCountry } from '../hooks/useCountry';
 import { useImages } from '../hooks/useImages';
-import { useFoodImages } from '../hooks/useFoodImages';
+import { useTouristImages } from '../hooks/useFoodImages';
 import { useForecast } from '../hooks/useForecast';
 import { useMemo } from 'react';
 
@@ -58,12 +58,12 @@ export default function HomePage() {
   const { data: countryRes } = useCountry(countryCode);
 
   const { data: imagesRes } = useImages(city);
-  const { data: foodRes } = useFoodImages(city);
+  const { data: touristRes } = useTouristImages(city);
   const { data: forecastRes } = useForecast(city);
 
   const country = countryRes || null;
   const images = imagesRes?.images || [];
-  const foodImages = foodRes?.foodImages || [];
+  const foodImages = touristRes?.touristImages || [];
   const forecast = useMemo(() => {
     const daily =
       forecastRes?.data?.list?.filter((_: any, i: any) => i % 8 === 0) || [];
@@ -184,10 +184,8 @@ export default function HomePage() {
           </Typography>
           <WeatherGraph data={forecast} />
         </Box>
-        <Grid container spacing={4} justifyContent="flex-end">
-          <Grid item xs={12} md={4}>
-            <ImageCart cityName={city} images={foodImages} />
-          </Grid>
+        <Grid item xs={12} md={4}>
+          <ImageCart cityName={city} images={foodImages} />
         </Grid>
       </Container>
     </>

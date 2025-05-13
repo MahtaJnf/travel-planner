@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-export const useFoodImages = (city: string) => {
+export const useTouristImages = (city: string) => {
   return useQuery({
-    queryKey: ['foods', city],
+    queryKey: ['tourist', city],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:3333/api/v1/food?city=${city}`
+        `http://localhost:3333/api/v1/tourist?city=${city}`
       );
       return res.data;
     },

@@ -9,11 +9,11 @@ export const getImages = async (req, res) => {
   }
 
   try {
-    const query = `places in ${city}`;
+    const query = `cities ${city}`;
     const unsplashRes = await fetch(
       `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
         query
-      )}&per_page=5&orientation=landscape`,
+      )}&per_page=10&orientation=landscape`,
       {
         headers: {
           Authorization: `Client-ID ${accessKey}`,
@@ -35,7 +35,7 @@ export const getImages = async (req, res) => {
   }
 };
 
-export const getFoodImages = async (req, res) => {
+export const getTouristImages = async (req, res) => {
   const city = req.query.city;
   const accessKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
@@ -46,12 +46,12 @@ export const getFoodImages = async (req, res) => {
   }
 
   try {
-    const query = `famous food ${city}`;
+    const query = `tourists ${city}`;
 
     const unsplashRes = await fetch(
       `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
         query
-      )}&per_page=5&orientation=landscape`,
+      )}&per_page=10&orientation=landscape`,
       {
         headers: {
           Authorization: `Client-ID ${accessKey}`,
@@ -66,11 +66,11 @@ export const getFoodImages = async (req, res) => {
         .json({ error: 'Unsplash API limit reached or error occurred' });
     }
     const data = await unsplashRes.json();
-    const foodImages = data.results?.map((img) => img.urls?.regular) || [];
-    if (!foodImages.length) {
+    const touristImages = data.results?.map((img) => img.urls?.regular) || [];
+    if (!touristImages.length) {
       return res.status(404).json({ error: 'No images found for that city' });
     }
-    return res.status(200).json({ foodImages });
+    return res.status(200).json({ touristImages });
   } catch (error) {
     console.error('Unsplash fetch error:', error);
     return res.status(500).json({ error: 'Failed to fetch images' });

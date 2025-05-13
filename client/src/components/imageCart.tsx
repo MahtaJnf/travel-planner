@@ -30,7 +30,11 @@ export default function ImageCart({ cityName, images }: ImageCartProps) {
         sx={{
           py: 8,
           textAlign: 'center',
-          borderRadius: 4,
+          borderRadius: 3,
+          maxWidth: '100%',
+          height: 360,
+          overflow: 'hidden',
+          boxShadow: 3,
           backgroundColor:
             theme.palette.mode === 'light'
               ? '#f5f5f5'
