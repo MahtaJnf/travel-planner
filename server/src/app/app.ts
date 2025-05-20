@@ -5,6 +5,7 @@ const app = express();
 import weatherRouter from '../../routes/weatherRoutes';
 import countryRouter from '../../routes/countryRoutes';
 import imageRouter from '../../routes/imageRoutes';
+import favoriteRoutes from '../../routes/favoriteRoutes';
 app.use(
   cors({
     origin: '*',
@@ -21,5 +22,6 @@ app.get('/api', (_req, res) => {
 app.use('/api/v1/weather', weatherRouter);
 app.use('/api/v1/country', countryRouter);
 app.use('/api/v1/', imageRouter);
+app.use('/api/v1/favorites', favoriteRoutes);
 
 export default app;

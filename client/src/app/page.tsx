@@ -19,6 +19,7 @@ import { useImages } from '../hooks/useImages';
 import { useTouristImages } from '../hooks/useFoodImages';
 import { useForecast } from '../hooks/useForecast';
 import { useMemo } from 'react';
+import { useAddFavorite } from '../hooks/useFavorites';
 
 const getEmoji = (main: string) => {
   switch (main.toLowerCase()) {
@@ -93,6 +94,29 @@ export default function HomePage() {
       ? `UTC${formatUtcOffset(weatherInfo?.timezone)}`
       : '—';
 
+  const addFavoriteMutation = useAddFavorite();
+
+  const handleFavorite = () => {
+    if (!weatherInfo || !city) return;
+    addFavoriteMutation.mutate(
+      {
+        city_name: city,
+        country_code: weatherInfo.sys?.country,
+        user_id: 'demo-user',
+      },
+      {
+        onSuccess: (data) => {
+          console.log('Favorited successfully:', data);
+          alert('Destination added to favorites!');
+        },
+        onError: (error) => {
+          console.error(error);
+          alert('Something went wrong. Try again!');
+        },
+      }
+    );
+  };
+
   return (
     <>
       <SearchBar onSearch={handleSearch} />
@@ -162,8 +186,8 @@ export default function HomePage() {
                 </Box>
 
                 <Box sx={{ mt: 2 }}>
-                  <Button variant="outlined" fullWidth>
-                    Learn More
+                  <Button variant="outlined" fullWidth onClick={handleFavorite}>
+                    Favorite this destination
                   </Button>
                 </Box>
               </CardContent>
