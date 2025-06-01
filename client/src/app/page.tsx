@@ -8,6 +8,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import Header from '../components/header';
 import ImageCart from '../components/imageCart';
 import SearchBar from '../components/searchBar';
 import { useState } from 'react';
@@ -109,9 +110,8 @@ export default function HomePage() {
           console.log('Favorited successfully:', data);
           alert('Destination added to favorites!');
         },
-        onError: (error) => {
-          console.error(error);
-          alert('Something went wrong. Try again!');
+        onError: () => {
+          alert('Destination already in favorites or an error occurred!');
         },
       }
     );
@@ -119,6 +119,7 @@ export default function HomePage() {
 
   return (
     <>
+      <Header />
       <SearchBar onSearch={handleSearch} />
       <Container maxWidth="lg" sx={{ mt: 6 }}>
         <Grid container spacing={4}>

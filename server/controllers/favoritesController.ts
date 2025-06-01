@@ -9,10 +9,7 @@ export const addFavorite = async (req: Request, res: Response) => {
     });
     res.status(201).json(result);
   } catch (error: any) {
-    if (
-      error.code === 'P2002' &&
-      error.meta?.target?.includes('user_id_city_name_country_code')
-    ) {
+    if (error.meta?.target?.includes('user_id_city_name_country_code')) {
       return res.status(200).json({ message: 'Already in favorites' });
     }
     console.error('Insert failed:', error);

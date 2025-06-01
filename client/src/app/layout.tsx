@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <QueryClientProvider client={queryClient}>
           <ThemeRegistry>
-            <Header />
+            {/* <Header /> */}
             <Box display="flex" flexDirection="column">
               <Box component="main" flexGrow={1}>
                 {children}
