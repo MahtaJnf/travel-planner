@@ -14,16 +14,21 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
   return (
     <html lang="en">
-      <body>
+      <body style={{ margin: 0, padding: 0, height: '100vh' }}>
         <QueryClientProvider client={queryClient}>
           <ThemeRegistry>
-            {/* <Header /> */}
-            <Box display="flex" flexDirection="column">
-              <Box component="main" flexGrow={1}>
+            <Box 
+              sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                minHeight: '100vh'
+              }}
+            >
+              <Box component="main" sx={{ flexGrow: 1 }}>
                 {children}
               </Box>
+              <Footer />
             </Box>
-            <Footer />
           </ThemeRegistry>
         </QueryClientProvider>
       </body>
