@@ -221,7 +221,7 @@ export default function HomePage() {
                 p: 4, 
                 textAlign: 'center', 
                 borderRadius: 4,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: (theme) => theme.custom.gradients.blueViolet,
                 color: 'white',
                 height: '100%',
                 display: 'flex',
@@ -244,7 +244,7 @@ export default function HomePage() {
                 p: 4, 
                 textAlign: 'center', 
                 borderRadius: 4,
-                background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                background: (theme) => theme.custom.gradients.pinkRed,
                 color: 'white',
                 height: '100%',
                 display: 'flex',
@@ -267,7 +267,7 @@ export default function HomePage() {
                 p: 4,
                 textAlign: 'center',
                 borderRadius: 4,
-                background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                background: (theme) => theme.custom.gradients.greenCyan,
                 color: 'white',
                 height: '100%',
                 display: 'flex',
@@ -292,7 +292,7 @@ export default function HomePage() {
           <Box sx={{ mb: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
               <Typography variant="h2" fontWeight="900" sx={{ 
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: (theme) => theme.custom.gradients.primary,
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
@@ -306,12 +306,13 @@ export default function HomePage() {
                   p: 1.5,
                   borderRadius: '50%',
                   background: (addFavoriteMutation.isPending || deleteFavoriteMutation.isPending)
-                    ? 'linear-gradient(135deg, #a0a0a0 0%, #888 100%)'
+                    ? (theme) => theme.custom.gradients.greyGradient
                     : isFavorite
-                    ? 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
+                    ? (theme) => theme.custom.gradients.secondary
                     : 'transparent',
-                  border: isFavorite ? 'none' : '2px solid #f093fb',
-                  color: isFavorite ? 'white' : '#f093fb',
+                  border: isFavorite ? 'none' : '2px solid',
+                  borderColor: isFavorite ? 'none' : 'secondary.main',
+                  color: isFavorite ? 'white' : 'secondary.main',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -320,10 +321,10 @@ export default function HomePage() {
                   transition: 'all 0.3s ease',
                   '&:hover': {
                     transform: (addFavoriteMutation.isPending || deleteFavoriteMutation.isPending) ? 'none' : 'scale(1.1)',
-                    boxShadow: (addFavoriteMutation.isPending || deleteFavoriteMutation.isPending) ? 'none' : '0 8px 20px rgba(240, 147, 251, 0.4)',
+                    boxShadow: (addFavoriteMutation.isPending || deleteFavoriteMutation.isPending) ? 'none' : (theme) => `0 8px 20px ${theme.custom.colors.purple.alpha[20]}`,
                     background: isFavorite 
-                      ? 'linear-gradient(135deg, #e082e5 0%, #e04857 100%)'
-                      : 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                      ? (theme) => theme.custom.gradients.pinkRedHover
+                      : (theme) => theme.custom.gradients.pinkRed,
                     color: 'white'
                   }
                 }}
@@ -334,14 +335,12 @@ export default function HomePage() {
             <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 500, mb: 3 }}>
               {weatherInfo?.sys?.country} • {country?.capital || 'Unknown Capital'} • {country?.region || '—'}
             </Typography>
-            
-            {/* Quick stats cards */}
             <Grid container spacing={2} sx={{ mb: 4 }}>
               <Grid item xs={6} sm={3}>
                 <Card sx={{ 
                   p: 2, 
                   textAlign: 'center',
-                  backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                  backgroundColor: (theme) => theme.custom.colors.indigo.alpha[10],
                   borderRadius: 3
                 }}>
                   <Typography variant="h3" fontWeight="bold" sx={{ fontSize: '2.5rem' }}>
@@ -356,7 +355,7 @@ export default function HomePage() {
                 <Card sx={{ 
                   p: 2, 
                   textAlign: 'center',
-                  backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                  backgroundColor: (theme) => theme.custom.colors.purple.alpha[10],
                   borderRadius: 3
                 }}>
                   <Typography variant="h3" fontWeight="bold" sx={{ fontSize: '2.5rem' }}>
@@ -371,7 +370,7 @@ export default function HomePage() {
                 <Card sx={{ 
                   p: 2, 
                   textAlign: 'center',
-                  backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                  backgroundColor: (theme) => theme.custom.colors.blue.alpha[10],
                   borderRadius: 3
                 }}>
                   <Typography variant="h3" fontWeight="bold" sx={{ fontSize: '2.5rem' }}>
@@ -386,7 +385,7 @@ export default function HomePage() {
                 <Card sx={{ 
                   p: 2, 
                   textAlign: 'center',
-                  backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                  backgroundColor: (theme) => theme.custom.colors.cyan.alpha[10],
                   borderRadius: 3
                 }}>
                   <Typography variant="h3" fontWeight="bold" sx={{ fontSize: '2.5rem' }}>
@@ -399,15 +398,11 @@ export default function HomePage() {
               </Grid>
             </Grid>
           </Box>
-
-          {/* Main content grid */}
           <Grid container spacing={3}>
-            {/* Left side - Images and forecast */}
             <Grid item xs={12} lg={8}>
-              {/* Compact image gallery */}
               <Card sx={{ 
                 borderRadius: 3,
-                boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                boxShadow: (theme) => `0 4px 20px ${theme.custom.colors.black.alpha[10]}`,
                 mb: 3,
                 overflow: 'hidden'
               }}>
@@ -427,7 +422,7 @@ export default function HomePage() {
                           transition: 'all 0.3s ease',
                           '&:hover': { 
                             transform: 'translateY(-4px)',
-                            boxShadow: '0 8px 25px rgba(0,0,0,0.15)'
+                            boxShadow: (theme) => `0 8px 25px ${theme.custom.colors.black.alpha[15]}`
                           }
                         }}>
                           <img 
@@ -451,7 +446,7 @@ export default function HomePage() {
               </Card>
               <Card sx={{
                 borderRadius: 3,
-                boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                boxShadow: (theme) => `0 4px 20px ${theme.custom.colors.black.alpha[10]}`,
                 mb: 3
               }}>
                 <Box sx={{ p: 3 }}>
@@ -465,7 +460,7 @@ export default function HomePage() {
               </Card>
               <Card sx={{
                 borderRadius: 3,
-                boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                boxShadow: (theme) => `0 4px 20px ${theme.custom.colors.black.alpha[10]}`,
                 mb: 3
               }}>
                 <Box sx={{ p: 3 }}>
@@ -477,7 +472,7 @@ export default function HomePage() {
                       <Box sx={{ 
                         p: 2, 
                         textAlign: 'center',
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        backgroundColor: (theme) => theme.custom.colors.indigo.alpha[10],
                         borderRadius: 2
                       }}>
                         <Typography variant="h6" fontWeight="bold">
@@ -490,7 +485,7 @@ export default function HomePage() {
                       <Box sx={{ 
                         p: 2, 
                         textAlign: 'center',
-                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        backgroundColor: (theme) => theme.custom.colors.purple.alpha[10],
                         borderRadius: 2
                       }}>
                         <Typography variant="h6" fontWeight="bold">
@@ -503,7 +498,7 @@ export default function HomePage() {
                       <Box sx={{ 
                         p: 2, 
                         textAlign: 'center',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        backgroundColor: (theme) => theme.custom.colors.blue.alpha[10],
                         borderRadius: 2
                       }}>
                         <Typography variant="h6" fontWeight="bold">
@@ -516,7 +511,7 @@ export default function HomePage() {
                       <Box sx={{ 
                         p: 2, 
                         textAlign: 'center',
-                        backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                        backgroundColor: (theme) => theme.custom.colors.cyan.alpha[10],
                         borderRadius: 2
                       }}>
                         <Typography variant="h6" fontWeight="bold">
@@ -530,9 +525,9 @@ export default function HomePage() {
               </Card>
               <Card sx={{
                 borderRadius: 3,
-                boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                border: '1px solid rgba(99, 102, 241, 0.2)'
+                boxShadow: (theme) => `0 4px 20px ${theme.custom.colors.black.alpha[10]}`,
+                backgroundColor: (theme) => theme.custom.colors.indigo.alpha[10],
+                border: (theme) => `1px solid ${theme.custom.colors.indigo.alpha[20]}`
               }}>
                 <Box sx={{ p: 3 }}>
                   <Typography variant="h6" fontWeight="bold" gutterBottom>
@@ -542,7 +537,7 @@ export default function HomePage() {
                     <Grid item xs={12} sm={4}>
                       <Box sx={{ 
                         p: 2, 
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        backgroundColor: (theme) => theme.custom.colors.indigo.alpha[10],
                         borderRadius: 2,
                         textAlign: 'center'
                       }}>
@@ -560,7 +555,7 @@ export default function HomePage() {
                     <Grid item xs={12} sm={4}>
                       <Box sx={{ 
                         p: 2, 
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        backgroundColor: (theme) => theme.custom.colors.indigo.alpha[10],
                         borderRadius: 2,
                         textAlign: 'center'
                       }}>
@@ -578,7 +573,7 @@ export default function HomePage() {
                     <Grid item xs={12} sm={4}>
                       <Box sx={{ 
                         p: 2, 
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        backgroundColor: (theme) => theme.custom.colors.indigo.alpha[10],
                         borderRadius: 2,
                         textAlign: 'center'
                       }}>
@@ -601,9 +596,9 @@ export default function HomePage() {
               <Box sx={{ position: 'sticky', top: 20 }}>
                 <Card sx={{
                   borderRadius: 3,
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                  boxShadow: (theme) => `0 4px 20px ${theme.custom.colors.black.alpha[10]}`,
                   mb: 3,
-                  background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+                  background: (theme) => theme.custom.gradients.lightGrey
                 }}>
                   <CardContent sx={{ p: 3 }}>
                     <Typography variant="h6" fontWeight="bold" color="primary.main" gutterBottom>
@@ -614,7 +609,7 @@ export default function HomePage() {
                         display: 'flex', 
                         justifyContent: 'space-between', 
                         p: 2, 
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)', 
+                        backgroundColor: (theme) => theme.custom.colors.indigo.alpha[10], 
                         borderRadius: 2 
                       }}>
                         <Typography variant="body2" color="text.secondary">Language</Typography>
@@ -624,7 +619,7 @@ export default function HomePage() {
                         display: 'flex', 
                         justifyContent: 'space-between', 
                         p: 2, 
-                        backgroundColor: 'rgba(139, 92, 246, 0.1)', 
+                        backgroundColor: (theme) => theme.custom.colors.purple.alpha[10], 
                         borderRadius: 2 
                       }}>
                         <Typography variant="body2" color="text.secondary">Currency</Typography>
@@ -634,7 +629,7 @@ export default function HomePage() {
                         display: 'flex', 
                         justifyContent: 'space-between', 
                         p: 2, 
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)', 
+                        backgroundColor: (theme) => theme.custom.colors.blue.alpha[10], 
                         borderRadius: 2 
                       }}>
                         <Typography variant="body2" color="text.secondary">Timezone</Typography>
@@ -647,10 +642,10 @@ export default function HomePage() {
                 {/* Quick facts */}
                 <Card sx={{
                   borderRadius: 3,
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                  boxShadow: (theme) => `0 4px 20px ${theme.custom.colors.black.alpha[10]}`,
                   mb: 3,
-                  backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                  border: '1px solid rgba(139, 92, 246, 0.2)'
+                  backgroundColor: (theme) => theme.custom.colors.purple.alpha[10],
+                  border: (theme) => `1px solid ${theme.custom.colors.purple.alpha[20]}`
                 }}>
                   <CardContent sx={{ p: 3 }}>
                     <Typography variant="h6" fontWeight="bold" gutterBottom>
@@ -661,7 +656,7 @@ export default function HomePage() {
                         display: 'flex', 
                         justifyContent: 'space-between',
                         p: 2,
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        backgroundColor: (theme) => theme.custom.colors.indigo.alpha[10],
                         borderRadius: 2
                       }}>
                         <Typography variant="body2" sx={{ opacity: 0.9 }}>Population</Typography>
@@ -673,7 +668,7 @@ export default function HomePage() {
                         display: 'flex', 
                         justifyContent: 'space-between',
                         p: 2,
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        backgroundColor: (theme) => theme.custom.colors.indigo.alpha[10],
                         borderRadius: 2
                       }}>
                         <Typography variant="body2" sx={{ opacity: 0.9 }}>Capital</Typography>
@@ -683,7 +678,7 @@ export default function HomePage() {
                         display: 'flex', 
                         justifyContent: 'space-between',
                         p: 2,
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        backgroundColor: (theme) => theme.custom.colors.indigo.alpha[10],
                         borderRadius: 2
                       }}>
                         <Typography variant="body2" sx={{ opacity: 0.9 }}>Continent</Typography>
@@ -694,10 +689,10 @@ export default function HomePage() {
                 </Card>
                 <Card sx={{
                   borderRadius: 3,
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                  boxShadow: (theme) => `0 4px 20px ${theme.custom.colors.black.alpha[10]}`,
                   mb: 3,
-                  backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                  border: '1px solid rgba(59, 130, 246, 0.2)',
+                  backgroundColor: (theme) => theme.custom.colors.blue.alpha[10],
+                  border: (theme) => `1px solid ${theme.custom.colors.blue.alpha[20]}`,
                   textAlign: 'center'
                 }}>
                   <CardContent sx={{ p: 3 }}>
@@ -736,9 +731,9 @@ export default function HomePage() {
                 {/* Weather summary */}
                 <Card sx={{
                   borderRadius: 3,
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                  backgroundColor: 'rgba(6, 182, 212, 0.1)',
-                  border: '1px solid rgba(6, 182, 212, 0.2)'
+                  boxShadow: (theme) => `0 4px 20px ${theme.custom.colors.black.alpha[10]}`,
+                  backgroundColor: (theme) => theme.custom.colors.cyan.alpha[10],
+                  border: (theme) => `1px solid ${theme.custom.colors.cyan.alpha[20]}`
                 }}>
                   <CardContent sx={{ p: 3 }}>
                     <Typography variant="h6" fontWeight="bold" gutterBottom>
@@ -751,7 +746,7 @@ export default function HomePage() {
                       display: 'flex', 
                       justifyContent: 'space-between',
                       p: 2,
-                      backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                      backgroundColor: (theme) => theme.custom.colors.cyan.alpha[10],
                       borderRadius: 2
                     }}>
                       <Typography variant="body2" color="text.secondary">Perfect for</Typography>

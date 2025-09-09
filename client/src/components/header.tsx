@@ -14,7 +14,7 @@ export default function Header() {
       color="transparent"
       elevation={0}
       sx={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: (theme) => theme.custom.gradients.primary,
         mb: 0,
       }}
     >
@@ -42,10 +42,10 @@ export default function Header() {
               px: 3,
               py: 1,
               borderRadius: 3,
-              backgroundColor: 'rgba(255,255,255,0.1)',
+              backgroundColor: (theme) => theme.custom.colors.white.alpha[10],
               backdropFilter: 'blur(10px)',
               '&:hover': {
-                backgroundColor: 'rgba(255,255,255,0.2)',
+                backgroundColor: (theme) => theme.custom.colors.white.alpha[20],
                 transform: 'translateY(-2px)',
               },
               transition: 'all 0.3s ease',
@@ -65,10 +65,10 @@ export default function Header() {
               px: 3,
               py: 1,
               borderRadius: 3,
-              backgroundColor: 'rgba(255,255,255,0.1)',
+              backgroundColor: (theme) => theme.custom.colors.white.alpha[10],
               backdropFilter: 'blur(10px)',
               '&:hover': {
-                backgroundColor: 'rgba(255,255,255,0.2)',
+                backgroundColor: (theme) => theme.custom.colors.white.alpha[20],
                 transform: 'translateY(-2px)',
               },
               transition: 'all 0.3s ease',

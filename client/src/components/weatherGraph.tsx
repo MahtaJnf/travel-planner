@@ -18,7 +18,7 @@ export default function WeatherGraph({ data }: { data: ForecastPoint[] }) {
           {
             data: data.map((d) => d.temp),
             label: 'Temperature (°C)',
-            color: '#1976d2',
+            color: 'primary.main',
           },
         ]}
         xAxis={[

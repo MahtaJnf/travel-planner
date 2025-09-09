@@ -37,7 +37,7 @@ export default function ImageCart({ cityName, images }: ImageCartProps) {
           boxShadow: 3,
           backgroundColor:
             theme.palette.mode === 'light'
-              ? '#f5f5f5'
+              ? theme.palette.grey[100]
               : theme.palette.grey[900],
         }}
       >
@@ -56,7 +56,7 @@ export default function ImageCart({ cityName, images }: ImageCartProps) {
           borderRadius: 3,
           overflow: 'hidden',
           boxShadow: 3,
-          backgroundColor: '#e0e0e0',
+          backgroundColor: 'grey.300',
         }}
       >
         <Slider {...settings}>

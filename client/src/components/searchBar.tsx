@@ -17,7 +17,7 @@ export default function SearchBar({
   return (
     <Box
       sx={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: (theme) => theme.custom.gradients.primary,
         py: 6,
         px: 2,
       }}
@@ -38,7 +38,8 @@ export default function SearchBar({
           <Typography
             variant="h6"
             sx={{
-              color: 'rgba(255,255,255,0.9)',
+              color: (theme) => theme.palette.common.white,
+              opacity: 0.9,
               mb: 4,
               fontWeight: 400,
               maxWidth: 600,
@@ -49,7 +50,6 @@ export default function SearchBar({
             Explore destinations worldwide with detailed weather forecasts, stunning photos, and local insights
           </Typography>
         </Box>
-
         <Paper
           component="form"
           onSubmit={(e) => {
@@ -62,10 +62,10 @@ export default function SearchBar({
             px: 3,
             py: 2,
             borderRadius: 6,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-            backgroundColor: 'rgba(255,255,255,0.95)',
+            boxShadow: (theme) => `0 8px 32px ${theme.custom.colors.black.alpha[30]}`,
+            backgroundColor: (theme) => theme.custom.colors.white.alpha[95],
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255,255,255,0.2)',
+            border: (theme) => `1px solid ${theme.custom.colors.white.alpha[20]}`,
           }}
         >
           <Explore sx={{ color: 'primary.main', mr: 2, fontSize: 28 }} />

@@ -8,7 +8,7 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        background: 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
+        background: (theme) => theme.custom.gradients.footer,
         color: 'white',
         mt: 'auto',
       }}
@@ -16,7 +16,6 @@ export default function Footer() {
       <Container>
         <Box sx={{ py: 2 }}>
           <Grid container spacing={4} justifyContent="space-between">
-            {/* Brand Section */}
             <Grid item xs={12} md={5}>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                 <TravelExplore sx={{ fontSize: 28, mr: 1 }} />
@@ -32,8 +31,9 @@ export default function Footer() {
                   size="small"
                   sx={{
                     color: 'white',
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                    '&:hover': { backgroundColor: 'rgba(255,255,255,0.2)', transform: 'translateY(-2px)' },
+                    backgroundColor: (theme) => theme.palette.common.white,
+                    opacity: 0.1,
+                    '&:hover': { backgroundColor: (theme) => theme.palette.common.white, opacity: 0.2, transform: 'translateY(-2px)' },
                     transition: 'all 0.3s ease'
                   }}
                 >
@@ -43,8 +43,9 @@ export default function Footer() {
                   size="small"
                   sx={{
                     color: 'white',
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                    '&:hover': { backgroundColor: 'rgba(255,255,255,0.2)', transform: 'translateY(-2px)' },
+                    backgroundColor: (theme) => theme.palette.common.white,
+                    opacity: 0.1,
+                    '&:hover': { backgroundColor: (theme) => theme.palette.common.white, opacity: 0.2, transform: 'translateY(-2px)' },
                     transition: 'all 0.3s ease'
                   }}
                 >
@@ -54,8 +55,9 @@ export default function Footer() {
                   size="small"
                   sx={{
                     color: 'white',
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                    '&:hover': { backgroundColor: 'rgba(255,255,255,0.2)', transform: 'translateY(-2px)' },
+                    backgroundColor: (theme) => theme.palette.common.white,
+                    opacity: 0.1,
+                    '&:hover': { backgroundColor: (theme) => theme.palette.common.white, opacity: 0.2, transform: 'translateY(-2px)' },
                     transition: 'all 0.3s ease'
                   }}
                 >
@@ -63,8 +65,6 @@ export default function Footer() {
                 </IconButton>
               </Box>
             </Grid>
-
-            {/* Quick Links */}
             <Grid item xs={6} sm={3} md={3}>
               <Typography variant="h6" fontWeight="bold" fontSize="1rem" sx={{ mb: 2 }}>
                 Quick Links
@@ -115,8 +115,6 @@ export default function Footer() {
                 </Link>
               </Stack>
             </Grid>
-
-            {/* Support */}
             <Grid item xs={6} sm={3} md={4}>
               <Typography variant="h6" fontWeight="bold" fontSize="1rem" sx={{ mb: 2 }}>
                 Support
@@ -178,9 +176,7 @@ export default function Footer() {
             </Grid>
           </Grid>
         </Box>
-
-        <Divider sx={{ borderColor: 'rgba(255,255,255,0.2)' }} />
-
+        <Divider sx={{ borderColor: (theme) => theme.palette.common.white, opacity: 0.2 }} />
         <Box sx={{ py: 2, textAlign: 'center' }}>
           <Typography variant="body2" sx={{ opacity: 0.8 }}>
             © {new Date().getFullYear()} Travel Planner. Made with ❤️ for travelers worldwide.

@@ -19,10 +19,10 @@ function FavoriteCard({ favorite, onDelete }: { favorite: any, onDelete: (id: nu
       display: 'flex',
       flexDirection: 'column',
       borderRadius: 3,
-      boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+      boxShadow: (theme) => `0 4px 20px ${theme.custom.colors.black.alpha[10]}`,
       '&:hover': { 
         transform: 'translateY(-4px)', 
-        boxShadow: '0 8px 32px rgba(0,0,0,0.15)' 
+        boxShadow: (theme) => `0 8px 32px ${theme.custom.colors.black.alpha[15]}` 
       },
       transition: 'all 0.3s ease',
       overflow: 'hidden'
@@ -46,11 +46,11 @@ function FavoriteCard({ favorite, onDelete }: { favorite: any, onDelete: (id: nu
         ) : (
           <Box sx={{
             height: '100%',
-            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            backgroundColor: (theme) => theme.custom.colors.indigo.alpha[10],
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)'
+            background: (theme) => `linear-gradient(135deg, ${theme.custom.colors.indigo.alpha[10]} 0%, ${theme.custom.colors.purple.alpha[10]} 100%)`
           }}>
             <LocationOn sx={{ fontSize: 60, color: 'primary.main', opacity: 0.6 }} />
           </Box>
@@ -59,7 +59,7 @@ function FavoriteCard({ favorite, onDelete }: { favorite: any, onDelete: (id: nu
           position: 'absolute',
           top: 16,
           right: 16,
-          backgroundColor: 'rgba(255,255,255,0.95)',
+          backgroundColor: (theme) => theme.custom.colors.white.alpha[95],
           borderRadius: 2,
           px: 1.5,
           py: 0.5,
@@ -74,7 +74,7 @@ function FavoriteCard({ favorite, onDelete }: { favorite: any, onDelete: (id: nu
           bottom: 0,
           left: 0,
           right: 0,
-          background: 'linear-gradient(transparent, rgba(0,0,0,0.7))',
+          background: (theme) => `linear-gradient(transparent, ${theme.custom.colors.black.alpha[70]})`,
           p: 2
         }}>
           <Typography variant="h5" fontWeight="bold" color="white">
@@ -101,9 +101,9 @@ function FavoriteCard({ favorite, onDelete }: { favorite: any, onDelete: (id: nu
             borderRadius: 2,
             textTransform: 'none',
             fontWeight: 'medium',
-            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.9) 0%, rgba(139, 92, 246, 0.9) 100%)',
+            background: (theme) => theme.custom.gradients.primary,
             '&:hover': {
-              background: 'linear-gradient(135deg, rgba(99, 102, 241, 1) 0%, rgba(139, 92, 246, 1) 100%)',
+              background: (theme) => theme.custom.gradients.primary,
             }
           }}
         >
@@ -114,7 +114,8 @@ function FavoriteCard({ favorite, onDelete }: { favorite: any, onDelete: (id: nu
           sx={{ 
             color: 'error.main',
             '&:hover': {
-              backgroundColor: 'rgba(244, 67, 54, 0.1)'
+              backgroundColor: 'error.light',
+              opacity: 0.1
             }
           }}
         >
@@ -179,9 +180,9 @@ export default function FavoritesPage() {
           <Box sx={{ 
             textAlign: 'center', 
             py: 8, 
-            backgroundColor: 'rgba(99, 102, 241, 0.05)', 
+            backgroundColor: (theme) => theme.custom.colors.indigo.alpha[5], 
             borderRadius: 3,
-            border: '1px solid rgba(99, 102, 241, 0.1)'
+            borderColor: (theme) => theme.custom.colors.indigo.alpha[10]
           }}>
             <FavoriteOutlined sx={{ fontSize: 80, color: 'primary.main', opacity: 0.6, mb: 2 }} />
             <Typography variant="h5" fontWeight="medium" color="text.secondary" gutterBottom>
@@ -195,9 +196,9 @@ export default function FavoritesPage() {
               size="large" 
               href="/"
               sx={{
-                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.9) 0%, rgba(139, 92, 246, 0.9) 100%)',
+                background: (theme) => theme.custom.gradients.primary,
                 '&:hover': {
-                  background: 'linear-gradient(135deg, rgba(99, 102, 241, 1) 0%, rgba(139, 92, 246, 1) 100%)',
+                  background: (theme) => theme.custom.gradients.primary,
                 }
               }}
             >
