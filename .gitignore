@@ -60,3 +60,8 @@ vitest.config.*.timestamp*
 # Next.js
 .next
 out
+
+# Temporary files
+tmp/
+*.tmp
+tsconfig.generated.*.json
