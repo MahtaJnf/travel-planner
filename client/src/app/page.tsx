@@ -11,10 +11,9 @@ import {
   Alert,
 } from '@mui/material';
 import Header from '../components/header';
-import ImageCart from '../components/imageCart';
 import SearchBar from '../components/searchBar';
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import WeatherGraph from '../components/weatherGraph';
 import { useWeather } from '../hooks/useWeather';
 import { useCountry } from '../hooks/useCountry';
@@ -53,6 +52,7 @@ function formatUtcOffset(offsetInSeconds: number): string {
 }
 
 export default function HomePage() {
+  const router = useRouter()
   const [city, setCity] = useState('');
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -92,7 +92,8 @@ export default function HomePage() {
   }, [forecastRes]);
 
   const handleSearch = (query: string) => {
-    setCity(query);
+    const newUrl = `/?search=${encodeURIComponent(query)}`;
+    router.replace(newUrl);
   };
 
   const country_languages: string = country?.languages
