@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15
+    container_name: travelplanner_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-mahta}
+      POSTGRES_DB: ${DB_NAME:-travel_planner}
+      # TRUST mode = no password required (dev ONLY)
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:

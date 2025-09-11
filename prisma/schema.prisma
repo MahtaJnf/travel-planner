@@ -10,11 +10,34 @@ datasource db {
 model Favorite {
   id           Int      @id @default(autoincrement())
   user_id      String
+  user         User @relation(fields: [user_id], references: [id], onDelete: Cascade)
   city_name    String
   country_code String
   created_at   DateTime @default(now())
 
-  @@unique([user_id, city_name, country_code])
+  @@unique([user_id, city_name, country_code], name: "favorites_user_city_country_uniq")
+  @@index([user_id])
   @@map("favorites")
 }
 
+model Session {
+  id        String @id @default(cuid())
+  user_id   String
+  user      User @relation(fields: [user_id], references: [id])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("session")
+}
+
+model User {
+  id          String @id @default(cuid())
+  email       String @unique
+  hashed_password String
+  emailVerifiedAt DateTime?
+  sessions    Session[]
+  favorites   Favorite[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("user")
+}
