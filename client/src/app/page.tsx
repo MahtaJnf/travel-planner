@@ -75,12 +75,11 @@ export default function HomePage() {
   const { data: countryRes } = useCountry(countryCode);
 
   const { data: imagesRes } = useImages(city);
-  const { data: touristRes } = useTouristImages(city);
   const { data: forecastRes } = useForecast(city);
 
   const country = countryRes || null;
   const images = imagesRes?.images || [];
-  const foodImages = touristRes?.touristImages || [];
+
   const forecast = useMemo(() => {
     const daily =
       forecastRes?.data?.list?.filter((_: any, i: any) => i % 8 === 0) || [];

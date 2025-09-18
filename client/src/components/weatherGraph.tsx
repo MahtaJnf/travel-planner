@@ -1,6 +1,6 @@
 'use client';
 
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { LineChart, axisClasses, lineElementClasses } from '@mui/x-charts';
 
 interface ForecastPoint {
@@ -10,6 +10,8 @@ interface ForecastPoint {
 }
 
 export default function WeatherGraph({ data }: { data: ForecastPoint[] }) {
+  const theme = useTheme();
+  
   return (
     <Box sx={{ width: '100%', height: 300 }}>
       <LineChart
@@ -18,7 +20,7 @@ export default function WeatherGraph({ data }: { data: ForecastPoint[] }) {
           {
             data: data.map((d) => d.temp),
             label: 'Temperature (°C)',
-            color: 'primary.main',
+            color: theme.palette.primary.main,
           },
         ]}
         xAxis={[
