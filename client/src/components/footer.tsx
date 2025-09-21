@@ -30,10 +30,13 @@ export default function Footer() {
                 <IconButton
                   size="small"
                   sx={{
-                    color: 'white',
-                    backgroundColor: (theme) => theme.palette.common.white,
-                    opacity: 0.1,
-                    '&:hover': { backgroundColor: (theme) => theme.palette.common.white, opacity: 0.2, transform: 'translateY(-2px)' },
+                    color: (theme) => theme.custom.colors.white.alpha[95],
+                    backgroundColor: (theme) => theme.custom.colors.white.alpha[10],
+                    '&:hover': {
+                      backgroundColor: (theme) => theme.custom.colors.white.alpha[20],
+                      color: (theme) => theme.palette.common.white,
+                      transform: 'translateY(-2px)'
+                    },
                     transition: 'all 0.3s ease'
                   }}
                 >
@@ -42,10 +45,13 @@ export default function Footer() {
                 <IconButton
                   size="small"
                   sx={{
-                    color: 'white',
-                    backgroundColor: (theme) => theme.palette.common.white,
-                    opacity: 0.1,
-                    '&:hover': { backgroundColor: (theme) => theme.palette.common.white, opacity: 0.2, transform: 'translateY(-2px)' },
+                    color: (theme) => theme.custom.colors.white.alpha[95],
+                    backgroundColor: (theme) => theme.custom.colors.white.alpha[10],
+                    '&:hover': {
+                      backgroundColor: (theme) => theme.custom.colors.white.alpha[20],
+                      color: (theme) => theme.palette.common.white,
+                      transform: 'translateY(-2px)'
+                    },
                     transition: 'all 0.3s ease'
                   }}
                 >
@@ -54,10 +60,13 @@ export default function Footer() {
                 <IconButton
                   size="small"
                   sx={{
-                    color: 'white',
-                    backgroundColor: (theme) => theme.palette.common.white,
-                    opacity: 0.1,
-                    '&:hover': { backgroundColor: (theme) => theme.palette.common.white, opacity: 0.2, transform: 'translateY(-2px)' },
+                    color: (theme) => theme.custom.colors.white.alpha[95],
+                    backgroundColor: (theme) => theme.custom.colors.white.alpha[10],
+                    '&:hover': {
+                      backgroundColor: (theme) => theme.custom.colors.white.alpha[20],
+                      color: (theme) => theme.palette.common.white,
+                      transform: 'translateY(-2px)'
+                    },
                     transition: 'all 0.3s ease'
                   }}
                 >
