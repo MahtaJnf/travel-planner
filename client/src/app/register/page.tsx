@@ -19,10 +19,10 @@ import {
   Lock, 
   Visibility, 
   VisibilityOff,
-  Person
 } from '@mui/icons-material';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -35,6 +35,7 @@ export default function RegisterPage() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { register } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -62,17 +63,9 @@ export default function RegisterPage() {
     }
 
     try {
-      // TODO: Implement actual register API call
-      console.log('Register attempt:', { 
-        email: formData.email, 
-        password: formData.password 
-      });
+      await register(formData);
       
-      // Placeholder for now
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // On success, redirect to login
-      router.push('/login?message=Account created successfully');
+      router.push('/login');
     } catch (err: any) {
       setError(err.message || 'Registration failed. Please try again.');
     } finally {

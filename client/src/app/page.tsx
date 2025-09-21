@@ -18,10 +18,10 @@ import WeatherGraph from '../components/weatherGraph';
 import { useWeather } from '../hooks/useWeather';
 import { useCountry } from '../hooks/useCountry';
 import { useImages } from '../hooks/useImages';
-import { useTouristImages } from '../hooks/useFoodImages';
 import { useForecast } from '../hooks/useForecast';
 import { useMemo } from 'react';
 import { useAddFavorite, useFavorites, useDeleteFavorite } from '../hooks/useFavorites';
+import { useAuth } from '../hooks/useAuth';
 
 const getEmoji = (main: string) => {
   switch (main.toLowerCase()) {
@@ -53,6 +53,8 @@ function formatUtcOffset(offsetInSeconds: number): string {
 
 export default function HomePage() {
   const router = useRouter()
+  const { getUser } = useAuth();
+  const user = getUser();
   const [city, setCity] = useState('');
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -112,7 +114,7 @@ export default function HomePage() {
 
   const addFavoriteMutation = useAddFavorite();
   const deleteFavoriteMutation = useDeleteFavorite();
-  const { data: favorites = [] } = useFavorites('demo-user');
+  const { data: favorites = [] } = useFavorites(user?.id || '');
   
   const currentCityFavorite = favorites.find(fav => 
     fav.city_name.toLowerCase() === city.toLowerCase() && 
@@ -156,7 +158,7 @@ export default function HomePage() {
         {
           city_name: city,
           country_code: weatherInfo.sys?.country,
-          user_id: 'demo-user',
+          user_id: user?.id || '',
         },
         {
           onSuccess: (data) => {

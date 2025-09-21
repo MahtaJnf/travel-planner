@@ -5,14 +5,17 @@ import { FavoriteOutlined, FlightTakeoff, TravelExplore, Login, Logout, AccountC
 import NextLink from 'next/link';
 import { useFavorites } from '../hooks/useFavorites';
 import { useAuth } from '../hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
-  const { getIsAuthenticated, getUser, changeAuthState } = useAuth();
+  const { getIsAuthenticated, getUser, logout } = useAuth();
   const user = getUser();
-  const { data: favorites = [] } = useFavorites('demo-user');
+  const { data: favorites = [] } = useFavorites(user?.id || '');
+  const router = useRouter(); 
 
   const handleLogout = () => {
-    changeAuthState(false);
+    logout();
+    router.push('/login');
   };
 
   return (

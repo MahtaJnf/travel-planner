@@ -5,20 +5,39 @@ import bcrypt from 'bcrypt';
 import { prisma } from '../utils/prisma';
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
-    // TODO:  1. Authenticate user with email and pass
-
-    const email = req.body.email;
-    const password = req.body.password;
-    const user ={
-       email: email,
-       password: password
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ error: 'Email and password are required' });
+        }
+        const user = await prisma.user.findUnique({
+            where: { email }
+        });
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.hashed_password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+        const jwtPayload = {
+            id: user.id,
+            email: user.email
+        };
+        const accessToken = jwt.sign(jwtPayload, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: '30m'
+        });
+        const refreshToken = jwt.sign(jwtPayload, process.env.REFRESH_TOKEN_SECRET);
+        refreshTokens.push(refreshToken);
+        res.json({
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+            user: { id: user.id, email: user.email }
+        });
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ error: 'Login failed' });
     }
-    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET,{
-        expiresIn: '30m'
-    })
-    const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-    refreshTokens.push(refreshToken)
-    res.json({ accessToken: accessToken, refreshToken: refreshToken });
 }
 
 // TODO: move these refresh tokens to a database
@@ -28,22 +47,24 @@ export const token = async (req: Request, res: Response, next: NextFunction) => 
     const refreshToken = req.body.token;
     if(!refreshToken) return res.status(401).json({ message: 'Unauthorized' });
     if(!refreshTokens.includes(refreshToken)) return res.status(403).json({ message: 'Forbidden' });
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded: any) => {
         if(err) return res.status(403).json({ message: 'Forbidden' });
-        const accessToken = jwt.sign({
-            email: user.email,
-            password: user.password
-        }, process.env.ACCESS_TOKEN_SECRET,{
+        const jwtPayload = {
+            id: decoded.id,
+            email: decoded.email
+        };
+        const accessToken = jwt.sign(jwtPayload, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: '30m'
-        })
+        });
+
         res.json({ accessToken: accessToken });
-    })
+    });
 }
 
 export const logout = async (req: Request, res: Response, next: NextFunction) => {
     const refreshToken = req.body.token;
     refreshTokens = refreshTokens.filter(token => token !== refreshToken);
-    res.status(204);
+    res.status(204).json({ message: 'Logged out successfully' });
 }
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
@@ -77,5 +98,3 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         res.status(500).json({ error: 'Registration failed' });
     }
 }
-
-    

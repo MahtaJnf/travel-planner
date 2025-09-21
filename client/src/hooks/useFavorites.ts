@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+import apiClient from '../services/apiClient';
 
-const API_BASE_URL = 'http://localhost:3333/api/v1/favorites';
+const FAVORITES_ENDPOINT = 'http://localhost:3333/api/v1/favorites';
 
 type FavoritePayload = {
   city_name: string;
@@ -21,7 +21,7 @@ export const useFavorites = (userId: string) => {
   return useQuery({
     queryKey: ['favorites', userId],
     queryFn: async (): Promise<FavoriteItem[]> => {
-      const res = await axios.get(`${API_BASE_URL}/${userId}`);
+      const res = await apiClient.get(`${FAVORITES_ENDPOINT}/${userId}`);
       return res.data;
     },
     enabled: !!userId,
@@ -32,7 +32,7 @@ export const useAddFavorite = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: FavoritePayload) => {
-      const res = await axios.post(API_BASE_URL, data);
+      const res = await apiClient.post(FAVORITES_ENDPOINT, data);
       return res.data;
     },
     onSuccess: (data, variables) => {
@@ -45,7 +45,7 @@ export const useDeleteFavorite = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (favoriteId: number) => {
-      const res = await axios.delete(`${API_BASE_URL}/${favoriteId}`);
+      const res = await apiClient.delete(`${FAVORITES_ENDPOINT}/${favoriteId}`);
       return res.data;
     },
     onSuccess: () => {

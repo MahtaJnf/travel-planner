@@ -3,6 +3,7 @@ import { Typography, Grid, Card, CardContent, Container, Box, Button, IconButton
 import { FavoriteOutlined, DeleteOutline, LocationOn } from '@mui/icons-material';
 import { useFavorites, useDeleteFavorite } from '../../hooks/useFavorites';
 import { useImages } from '../../hooks/useImages';
+import { useAuth } from '../../hooks/useAuth';
 import Header from '../../components/header';
 import NextLink from 'next/link';
 import { useState } from 'react';
@@ -127,7 +128,9 @@ function FavoriteCard({ favorite, onDelete }: { favorite: any, onDelete: (id: nu
 }
 
 export default function FavoritesPage() {
-  const { data: favorites = [], isLoading, error } = useFavorites('demo-user');
+  const { getUser } = useAuth();
+  const user = getUser();
+  const { data: favorites = [], isLoading, error } = useFavorites(user?.id || '');
   const deleteFavoriteMutation = useDeleteFavorite();
 
   const handleDelete = (id: number) => {
