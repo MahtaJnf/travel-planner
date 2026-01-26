@@ -1,14 +1,15 @@
 'use client';
 
-import { Box, Typography, Container, Link, Grid, Divider, Stack, IconButton } from '@mui/material';
+import { Box, Typography, Container, Link, Grid, Divider, Stack, IconButton, useTheme } from '@mui/material';
 import { TravelExplore, FavoriteOutlined, GitHub, Twitter, Instagram } from '@mui/icons-material';
 
 export default function Footer() {
+  const theme = useTheme();
   return (
     <Box
       component="footer"
       sx={{
-        background: (theme) => theme.custom.gradients.footer,
+        background: theme.custom.gradients.footer,
         color: 'white',
         mt: 'auto',
       }}
@@ -30,10 +31,10 @@ export default function Footer() {
                 <IconButton
                   size="small"
                   sx={{
-                    color: (theme) => theme.custom.colors.white.alpha[95],
-                    backgroundColor: (theme) => theme.custom.colors.white.alpha[10],
+                    color: theme.custom.colors.white.alpha[95],
+                    backgroundColor: theme.custom.colors.white.alpha[10],
                     '&:hover': {
-                      backgroundColor: (theme) => theme.custom.colors.white.alpha[20],
+                      backgroundColor: theme.custom.colors.white.alpha[20],
                       color: (theme) => theme.palette.common.white,
                       transform: 'translateY(-2px)'
                     },
@@ -45,10 +46,10 @@ export default function Footer() {
                 <IconButton
                   size="small"
                   sx={{
-                    color: (theme) => theme.custom.colors.white.alpha[95],
-                    backgroundColor: (theme) => theme.custom.colors.white.alpha[10],
+                    color: theme.custom.colors.white.alpha[95],
+                    backgroundColor: theme.custom.colors.white.alpha[10],
                     '&:hover': {
-                      backgroundColor: (theme) => theme.custom.colors.white.alpha[20],
+                      backgroundColor: theme.custom.colors.white.alpha[20],
                       color: (theme) => theme.palette.common.white,
                       transform: 'translateY(-2px)'
                     },
@@ -60,10 +61,10 @@ export default function Footer() {
                 <IconButton
                   size="small"
                   sx={{
-                    color: (theme) => theme.custom.colors.white.alpha[95],
-                    backgroundColor: (theme) => theme.custom.colors.white.alpha[10],
+                    color: theme.custom.colors.white.alpha[95],
+                    backgroundColor: theme.custom.colors.white.alpha[10],
                     '&:hover': {
-                      backgroundColor: (theme) => theme.custom.colors.white.alpha[20],
+                      backgroundColor: theme.custom.colors.white.alpha[20],
                       color: (theme) => theme.palette.common.white,
                       transform: 'translateY(-2px)'
                     },

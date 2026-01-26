@@ -1,5 +1,5 @@
 'use client';
-import { Typography, Grid, Card, CardContent, Container, Box, Button, IconButton, Skeleton } from '@mui/material';
+import { Typography, Grid, Card, CardContent, Container, Box, Button, IconButton, Skeleton, useTheme } from '@mui/material';
 import { FavoriteOutlined, DeleteOutline, LocationOn } from '@mui/icons-material';
 import { useFavorites, useDeleteFavorite } from '../../hooks/useFavorites';
 import { useImages } from '../../hooks/useImages';
@@ -9,6 +9,7 @@ import NextLink from 'next/link';
 import { useState } from 'react';
 
 function FavoriteCard({ favorite, onDelete }: { favorite: any, onDelete: (id: number) => void }) {
+  const theme = useTheme();
   const { data: imagesRes } = useImages(favorite.city_name);
   const images = imagesRes?.images || [];
   const firstImage = images[0];
@@ -47,7 +48,7 @@ function FavoriteCard({ favorite, onDelete }: { favorite: any, onDelete: (id: nu
         ) : (
           <Box sx={{
             height: '100%',
-            backgroundColor: (theme) => theme.custom.colors.indigo.alpha[10],
+            backgroundColor: theme.custom.colors.indigo.alpha[10],
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -60,7 +61,7 @@ function FavoriteCard({ favorite, onDelete }: { favorite: any, onDelete: (id: nu
           position: 'absolute',
           top: 16,
           right: 16,
-          backgroundColor: (theme) => theme.custom.colors.white.alpha[95],
+          backgroundColor: theme.custom.colors.white.alpha[95],
           borderRadius: 2,
           px: 1.5,
           py: 0.5,
@@ -102,9 +103,9 @@ function FavoriteCard({ favorite, onDelete }: { favorite: any, onDelete: (id: nu
             borderRadius: 2,
             textTransform: 'none',
             fontWeight: 'medium',
-            background: (theme) => theme.custom.gradients.primary,
+            background: theme.custom.gradients.primary,
             '&:hover': {
-              background: (theme) => theme.custom.gradients.primary,
+              background: theme.custom.gradients.primary,
             }
           }}
         >
@@ -128,6 +129,7 @@ function FavoriteCard({ favorite, onDelete }: { favorite: any, onDelete: (id: nu
 }
 
 export default function FavoritesPage() {
+  const theme = useTheme();
   const { getUser } = useAuth();
   const user = getUser();
   const { data: favorites = [], isLoading, error } = useFavorites(user?.id || '');
@@ -183,9 +185,9 @@ export default function FavoritesPage() {
           <Box sx={{ 
             textAlign: 'center', 
             py: 8, 
-            backgroundColor: (theme) => theme.custom.colors.indigo.alpha[5], 
+            backgroundColor: theme.custom.colors.indigo.alpha[5], 
             borderRadius: 3,
-            borderColor: (theme) => theme.custom.colors.indigo.alpha[10]
+            borderColor: theme.custom.colors.indigo.alpha[10]
           }}>
             <FavoriteOutlined sx={{ fontSize: 80, color: 'primary.main', opacity: 0.6, mb: 2 }} />
             <Typography variant="h5" fontWeight="medium" color="text.secondary" gutterBottom>
@@ -199,9 +201,9 @@ export default function FavoritesPage() {
               size="large" 
               href="/"
               sx={{
-                background: (theme) => theme.custom.gradients.primary,
+                background: theme.custom.gradients.primary,
                 '&:hover': {
-                  background: (theme) => theme.custom.gradients.primary,
+                  background: theme.custom.gradients.primary,
                 }
               }}
             >

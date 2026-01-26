@@ -1,17 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  Box, 
-  Container, 
-  Paper, 
-  Typography, 
-  TextField, 
-  Button, 
-  Link, 
+import {
+  Box,
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Link,
   InputAdornment,
   IconButton,
-  Alert
+  Alert,
+  useTheme
 } from '@mui/material';
 import { 
   TravelExplore, 
@@ -25,6 +26,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../hooks/useAuth';
 
 export default function RegisterPage() {
+  const theme = useTheme();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -77,7 +79,7 @@ export default function RegisterPage() {
     <Box
       sx={{
         minHeight: '100vh',
-        background: (theme) => theme.custom.gradients.primary,
+        background: theme.custom.gradients.primary,
         display: 'flex',
         alignItems: 'center',
         py: 4,
@@ -89,7 +91,7 @@ export default function RegisterPage() {
           sx={{
             p: 4,
             borderRadius: 4,
-            background: (theme) => theme.custom.colors.white.alpha[95],
+            background: theme.custom.colors.white.alpha[95],
             backdropFilter: 'blur(20px)',
             border: (theme) => `1px solid ${theme.custom.colors.white.alpha[20]}`,
           }}
@@ -195,9 +197,9 @@ export default function RegisterPage() {
               sx={{
                 py: 1.5,
                 mb: 3,
-                background: (theme) => theme.custom.gradients.primary,
+                background: theme.custom.gradients.primary,
                 '&:hover': {
-                  background: (theme) => theme.custom.gradients.primary,
+                  background: theme.custom.gradients.primary,
                   transform: 'translateY(-2px)',
                 },
                 transition: 'all 0.3s ease',

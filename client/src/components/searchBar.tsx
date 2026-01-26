@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Container, Paper, InputBase, IconButton, Box, Typography } from '@mui/material';
+import { Container, Paper, InputBase, IconButton, Box, Typography, useTheme } from '@mui/material';
 import { Search, Explore } from '@mui/icons-material';
 
 export default function SearchBar({
@@ -8,6 +8,7 @@ export default function SearchBar({
 }: {
   onSearch: (query: string) => void;
 }) {
+  const theme = useTheme();
   const [query, setQuery] = useState('');
 
   const handleSearch = () => {
@@ -17,7 +18,7 @@ export default function SearchBar({
   return (
     <Box
       sx={{
-        background: (theme) => theme.custom.gradients.primary,
+        background: theme.custom.gradients.primary,
         py: 6,
         px: 2,
       }}
@@ -63,7 +64,7 @@ export default function SearchBar({
             py: 2,
             borderRadius: 6,
             boxShadow: (theme) => `0 8px 32px ${theme.custom.colors.black.alpha[30]}`,
-            backgroundColor: (theme) => theme.custom.colors.white.alpha[95],
+            backgroundColor: theme.custom.colors.white.alpha[95],
             backdropFilter: 'blur(20px)',
             border: (theme) => `1px solid ${theme.custom.colors.white.alpha[20]}`,
           }}

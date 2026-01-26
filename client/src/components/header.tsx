@@ -1,6 +1,6 @@
 'use client';
 
-import { AppBar, Box, Toolbar, Typography, Button, Badge, IconButton } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography, Button, Badge, IconButton, useTheme } from '@mui/material';
 import { FavoriteOutlined, FlightTakeoff, TravelExplore, Login, Logout, AccountCircle } from '@mui/icons-material';
 import NextLink from 'next/link';
 import { useFavorites } from '../hooks/useFavorites';
@@ -8,10 +8,11 @@ import { useAuth } from '../hooks/useAuth';
 import { useRouter } from 'next/navigation';
 
 export default function Header() {
+  const theme = useTheme();
   const { getIsAuthenticated, getUser, logout } = useAuth();
   const user = getUser();
   const { data: favorites = [] } = useFavorites(user?.id || '');
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleLogout = () => {
     logout();
@@ -24,7 +25,7 @@ export default function Header() {
       color="transparent"
       elevation={0}
       sx={{
-        background: (theme) => theme.custom.gradients.primary,
+        background: theme.custom.gradients.primary,
         mb: 0,
       }}
     >
@@ -53,10 +54,10 @@ export default function Header() {
                 px: 3,
                 py: 1,
                 borderRadius: 3,
-                backgroundColor: (theme) => theme.custom.colors.white.alpha[10],
+                backgroundColor: theme.custom.colors.white.alpha[10],
                 backdropFilter: 'blur(10px)',
                 '&:hover': {
-                  backgroundColor: (theme) => theme.custom.colors.white.alpha[20],
+                  backgroundColor: theme.custom.colors.white.alpha[20],
                   transform: 'translateY(-2px)',
                 },
                 transition: 'all 0.3s ease',
@@ -76,10 +77,10 @@ export default function Header() {
               px: 3,
               py: 1,
               borderRadius: 3,
-              backgroundColor: (theme) => theme.custom.colors.white.alpha[10],
+              backgroundColor: theme.custom.colors.white.alpha[10],
               backdropFilter: 'blur(10px)',
               '&:hover': {
-                backgroundColor: (theme) => theme.custom.colors.white.alpha[20],
+                backgroundColor: theme.custom.colors.white.alpha[20],
                 transform: 'translateY(-2px)',
               },
               transition: 'all 0.3s ease',
@@ -99,14 +100,14 @@ export default function Header() {
                 px: 3,
                 py: 1,
                 borderRadius: 3,
-                backgroundColor: (theme) => theme.custom.colors.white.alpha[20],
+                backgroundColor: theme.custom.colors.white.alpha[20],
                 backdropFilter: 'blur(10px)',
-                border: (theme) => `1px solid ${theme.custom.colors.white.alpha[20]}`,
+                border: `1px solid ${theme.custom.colors.white.alpha[20]}`,
                 '&:hover': {
                   backgroundColor: 'white',
                   color: 'primary.main',
                   transform: 'translateY(-2px)',
-                  boxShadow: (theme) => `0 4px 20px ${theme.custom.colors.black.alpha[15]}`,
+                  boxShadow: `0 4px 20px ${theme.custom.colors.black.alpha[15]}`,
                 },
                 transition: 'all 0.3s ease',
               }}
@@ -138,7 +139,7 @@ export default function Header() {
                   px: 3,
                   py: 1,
                   borderRadius: 3,
-                  backgroundColor: (theme) => theme.custom.colors.white.alpha[10],
+                  backgroundColor: theme.custom.colors.white.alpha[10],
                   backdropFilter: 'blur(10px)',
                   '&:hover': {
                     backgroundColor: 'error.main',
