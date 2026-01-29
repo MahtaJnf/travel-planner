@@ -1,4 +1,5 @@
 {
+    "framework": "nextjs",
     "buildCommand": "npx nx build client",
     "outputDirectory": ".next"
   }
