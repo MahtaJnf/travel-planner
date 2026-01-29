@@ -13,6 +13,6 @@ import app from './app/app';
 //Start the server
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
+  console.log(`Server running on port ${port}`);
 });
 server.on('error', console.error);
