@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import apiClient from '../services/apiClient';
 
-const FAVORITES_ENDPOINT = 'http://localhost:3333/api/v1/favorites';
+const FAVORITES_ENDPOINT = process.env.NEXT_PUBLIC_API_BASE_URL + '/favorites';
 
 type FavoritePayload = {
   city_name: string;
