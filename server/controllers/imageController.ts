@@ -1,6 +1,6 @@
 export const getImages = async (req, res) => {
   const city = req.query.city;
-  const accessKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
+  const accessKey = process.env.UNSPLASH_ACCESS_KEY;
 
   if (!city || !accessKey) {
     return res
@@ -37,7 +37,7 @@ export const getImages = async (req, res) => {
 
 export const getTouristImages = async (req, res) => {
   const city = req.query.city;
-  const accessKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
+  const accessKey = process.env.UNSPLASH_ACCESS_KEY;
 
   if (!city || !accessKey) {
     return res
