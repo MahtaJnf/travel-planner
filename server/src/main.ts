@@ -2,10 +2,12 @@
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
-// Load env variables
-dotenv.config({
-  path: path.resolve(__dirname, '../../../.env'),
-});
+// Load env variables (only in development)
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({
+    path: path.resolve(__dirname, '../../../.env'),
+  });
+}
 
 // Import your Express app with routes
 import app from './app/app';
