@@ -1,10 +1,10 @@
 const { PrismaClient } = require('@prisma/client');
-const argon2 = require('argon2');
+const bcrypt = require('bcrypt');
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const hash = await argon2.hash(process.env.DEMO_PASSWORD || 'demo-demo');
+  const hash = await bcrypt.hash(process.env.DEMO_PASSWORD || 'demo-demo', 10);
   await prisma.user.upsert({
     where: { id: 'demo-user' },
     update: { email: 'demo@local', hashed_password: hash },
