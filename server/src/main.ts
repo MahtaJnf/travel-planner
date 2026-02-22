@@ -13,8 +13,9 @@ if (process.env.NODE_ENV !== 'production') {
 import app from './app/app';
 
 //Start the server
-const port = process.env.PORT || 3333;
-const server = app.listen(port, () => {
+const port = Number(process.env.PORT) || 3333;
+const server = app.listen(port, "0.0.0.0", () => {
   console.log(`Server running on port ${port}`);
 });
-server.on('error', console.error);
+server.on("error", console.error);
+
